@@ -1,0 +1,34 @@
+#include "ping.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
+using ::testing::_;
+using ::testing::Return;
+
+// -------------------- MockSocket --------------------
+class MockSocket : public Socket {
+public:
+    MOCK_METHOD(bool, Send, (const std::vector<uint8_t>& buffer), (override));
+    MOCK_METHOD(std::vector<uint8_t>, Recv, (), (override));
+};
+
+// -------------------- Testes --------------------
+TEST(ClientTest, WhenPingShouldSendBufferToSocket) {
+    auto mock_socket = std::make_shared<MockSocket>();
+    Client client(mock_socket);
+
+    EXPECT_CALL(*mock_socket, Send(_)).Times(1);
+    EXPECT_CALL(*mock_socket, Recv()).Times(1).WillOnce(Return(std::vector<uint8_t>(8, 0)));
+
+    client.Ping();
+}
+
+TEST(ClientTest, WhenPingShouldReceiveBufferFromSocket) {
+    auto mock_socket = std::make_shared<MockSocket>();
+    Client client(mock_socket);
+
+    EXPECT_CALL(*mock_socket, Send(_)).Times(1);
+    EXPECT_CALL(*mock_socket, Recv()).Times(1).WillOnce(Return(std::vector<uint8_t>(8, 0)));
+
+    client.Ping();
+}
