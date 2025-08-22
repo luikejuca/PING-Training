@@ -1,0 +1,81 @@
+//Escrevi esse com as dicas do jonas
+
+#ifndef PING_H
+#define PING_H
+
+#include <cstdint>
+#include <vector>
+#include <string>
+#include <memory>
+
+class IcmpMessage {
+   public:
+    std::vector<uint8_t> Encode();
+    void Decode(std::vector<uint8_t> buffer);
+
+   private:
+    uint8_t type_;
+    uint8_t code_;
+    uint16_t checksum_;
+    uint16_t id_;
+    uint16_t seq_;
+    std::vector<uint8_t> data_;
+}
+
+
+class Client {
+   public:
+    Client(std::shared_ptr<Socket> socket = nullptr)
+    bool Ping(std::string ip="127.0.0.1", size_t pkt_counter=1){
+
+        buffer_send = msg.Encode()
+        socket_->Send(buffer_send)
+
+        buffer_recv = socket_->Recv();
+        msg.Decode(buffer_recv)
+
+        return true;
+    }
+
+   private:
+    std::shared_ptr<Socket> socket_;
+}
+
+class Socket {
+   public:
+    Socket();
+    bool Send(std::vector<uint8_t> buffer);
+    std::vector<uint8_t> buffer Recv();
+}
+
+
+class Server {
+   public:
+    bool Listen(std::string ip, size_t pkt_counter);
+
+   private:
+    Socket socket_;
+}
+
+
+class MockSocket : public Socket {
+    MOCK_METHOD(Send)
+    MOCK_METHOD(Recv)
+}
+
+
+TEST(Client, WhenPingShouldSendBufferToSocket)
+{
+    MockSocket mock_socket;
+    Client client(mock_socket);
+    EXPECT_CALL(mock_socket, Send(_));
+    client.Ping();
+}
+
+TEST(Client, WhenPingShouldReceiveBufferFromSocket)
+{
+    MockSocket mock_socket;
+    Client client(mock_socket);
+    EXPECT_CALL(mock_socket, Recv(_));
+    client.Ping();
+}
