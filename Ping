@@ -1,9 +1,9 @@
 //Escrevi esse com as dicas do jonas
+//Neste arquivo tem os testes que eu não trabalhei neles ainda então é o exato código que o jonas fez
 
 #ifndef PING_H
 #define PING_H
 
-#include <cstdint>
 #include <vector>
 #include <string>
 #include <memory>
